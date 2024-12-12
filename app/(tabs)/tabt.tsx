@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
 import React, { useCallback, useEffect } from "react";
-import { useFocusEffect } from "expo-router";
+import { Link, useFocusEffect } from "expo-router";
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -47,6 +47,16 @@ export default function TabThreeScreen() {
         darkColor="rgba(255,255,255,0.1)"
       />
       <Text style={styles.title}> Randome :{randome}</Text>
+      <Link
+        href={{
+          pathname: "/",
+        }}
+        style={{
+          color: "blue",
+        }}
+      >
+        Go to Tab One
+      </Link>
     </View>
   );
 }
