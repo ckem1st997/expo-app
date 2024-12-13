@@ -1,18 +1,16 @@
 import React, { useEffect } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Link, Tabs } from "expo-router";
-import { Pressable } from "react-native";
+import { Link, Tabs, useNavigation } from "expo-router";
+import { BackHandler, Easing, Pressable } from "react-native";
 
 import Colors from "@/constants/Colors";
 import { useColorScheme } from "@/components/useColorScheme";
 import { useClientOnlyValue } from "@/components/useClientOnlyValue";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import TabOneScreen from ".";
-import TabThreeScreen from "./tabt";
-import TabTwoScreen from "./two";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AlertNotificationRoot } from "react-native-alert-notification";
+import { ChevronLeft } from "@tamagui/lucide-icons";
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>["name"];
@@ -22,9 +20,9 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-  const Stack = createNativeStackNavigator();
-  const MyTabs = createBottomTabNavigator();
+  // const colorScheme = useColorScheme();
+  const colorScheme = "light";
+  const Tab = createBottomTabNavigator();
 
   return (
     <Tabs
@@ -33,7 +31,7 @@ export default function TabLayout() {
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
-        animation: "shift",
+        animation: "none",
       }}
     >
       <Tabs.Screen
@@ -55,20 +53,49 @@ export default function TabLayout() {
               </Pressable>
             </Link>
           ),
+          headerShown: false,
+          
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="shipping"
         options={{
           title: "Giao vận",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="motorcycle" color={color} />
+          ),
+          headerShown: false,
         }}
       />
       <Tabs.Screen
-        name="tabt"
+        name="technique"
         options={{
           title: "Kỹ thuật",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="wrench" color={color} />,
+          transitionSpec: {
+            animation: "timing",
+            config: {
+              duration: 150,
+              easing: Easing.inOut(Easing.ease),
+            },
+          },
+          headerShown: false,
+        }}
+      />
+      <Tabs.Screen
+        name="warranty"
+        options={{
+          title: "Bảo hành",
+          tabBarIcon: ({ color }) => <TabBarIcon name="repeat" color={color} />,
+          headerShown: false,
+        }}
+      />
+      <Tabs.Screen
+        name="user"
+        options={{
+          title: "Cá nhân",
+          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+          headerShown: false,
         }}
       />
       {/* <Tabs.Screen

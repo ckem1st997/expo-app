@@ -12,6 +12,13 @@ import "react-native-reanimated";
 import * as Notifications from "expo-notifications";
 
 import { useColorScheme } from "@/components/useColorScheme";
+import { AlertNotificationRoot } from "react-native-alert-notification";
+import { createTamagui, TamaguiProvider } from "tamagui";
+import defaultConfig from "@tamagui/config/v3";
+import TabOneScreen from "./(tabs)";
+import ShippingScreen from "./(tabs)/shipping";
+import TechniqueScreen from "./(tabs)/technique";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -49,16 +56,41 @@ export default function RootLayout() {
 
   return <RootLayoutNav />;
 }
+///mơ modal thì cần nút back trên đầu
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+  //  const colorScheme = useColorScheme();
+  var colorScheme = "light";
+
+  const config = createTamagui(defaultConfig);
+  const Tab = createBottomTabNavigator();
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-      </Stack>
+      <AlertNotificationRoot theme={colorScheme === "dark" ? "light" : "dark"}>
+        <TamaguiProvider config={config}>
+          <Stack>
+            <Stack.Screen
+              name="(tabs)"
+              options={{ headerShown: false, animation: "slide_from_bottom" }}
+            />
+            {/* <Tab.Navigator
+              screenOptions={{ headerShown: false, animation: "shift" }}
+            >
+              <Tab.Screen name="index" component={TabOneScreen} />
+              <Tab.Screen name="ship" component={ShippingScreen} />
+              <Tab.Screen name="tec" component={TechniqueScreen} />
+            </Tab.Navigator> */}
+            <Stack.Screen
+              name="modal"
+              options={{
+                presentation: "fullScreenModal",
+                animation: "slide_from_left",
+              }}
+            />
+          </Stack>
+        </TamaguiProvider>
+      </AlertNotificationRoot>
     </ThemeProvider>
   );
 }
