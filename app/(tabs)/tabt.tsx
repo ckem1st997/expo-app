@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Alert, Button, StyleSheet } from "react-native";
 
 import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
@@ -10,6 +10,14 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import * as Notifications from "expo-notifications";
+import { SchedulableTriggerInputTypes } from "expo-notifications";
+import {
+  ALERT_TYPE,
+  Dialog,
+  AlertNotificationRoot,
+  Toast,
+} from "react-native-alert-notification";
 
 export default function TabThreeScreen() {
   const [randome, setRandom] = React.useState("");
@@ -36,28 +44,45 @@ export default function TabThreeScreen() {
       width: withTiming(randomWidth.value, config),
     };
   });
-  return (
-    <View style={styles.container}>
-      <Animated.View style={[styles1.box, style]} />
 
-      <Text style={styles.title}>Tab Two</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <Text style={styles.title}> Randome :{randome}</Text>
-      <Link
-        href={{
-          pathname: "/",
-        }}
-        style={{
-          color: "blue",
-        }}
-      >
-        Go to Tab One
-      </Link>
-    </View>
+  const schedulePushNotification = () => {
+    Toast.show({
+      type: ALERT_TYPE.SUCCESS,
+      title: "Thông báo !",
+      textBody: Math.random().toString(),
+      autoClose: true,
+      
+    });
+  };
+
+  return (
+    <AlertNotificationRoot>
+      <View style={styles.container}>
+        <Animated.View style={[styles1.box, style]} />
+
+        <Text style={styles.title}>Tab Two 1</Text>
+        <View
+          style={styles.separator}
+          lightColor="#eee"
+          darkColor="rgba(255,255,255,0.1)"
+        />
+        <Text style={styles.title}> Randome :{randome}</Text>
+        <Link
+          href={{
+            pathname: "/",
+          }}
+          style={{
+            color: "blue",
+          }}
+        >
+          Go to Tab One
+        </Link>
+        <Button
+          title="Press to schedule a notification"
+          onPress={schedulePushNotification}
+        />
+      </View>
+    </AlertNotificationRoot>
   );
 }
 
